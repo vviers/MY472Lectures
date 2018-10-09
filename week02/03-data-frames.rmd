@@ -127,8 +127,11 @@ library(maps)
 
 But many others (over 10,000!) are available on CRAN, the distributed repository of packages contributed by the R community. Let's install the `tidyverse` package, which is actually a set of packages authored by Hadley Wickham that we will heavily use in the course:
 
-```{r}
+```{r, eval=FALSE}
 install.packages("tidyverse")
 ```
 
-
+It's cleaner to source e.g. setup code at the beginning of the analysis
+```{r, eval=FALSE}
+source("my_script.r")
+```

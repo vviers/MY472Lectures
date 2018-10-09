@@ -9,10 +9,10 @@ dd <- d[d$CountryAbb %in% c("HUN", "AUS") & d$Year %in% 2010:2012,
 
 # converting to wide format
 library(reshape2)
-(dc <- dcast(dd, CountryAbb ~ Year, value.var="idealpoint"))
+(dc <- dcast(dd, CountryAbb ~ Year, value.var="idealpoint")) # dcast() long to wide
 
 # converting back to long format
-melt(dc, id.vars=c("CountryAbb"), value.name="idealpoint")
+melt(dc, id.vars=c("CountryAbb"), value.name="idealpoint") # melt() wide to long
 ```
 
 Another very useful function to reshape datasets (although it's more about computing summary statistics!) is `aggregate`. For example, we can use it to compute the average value of a variable, grouped by values of a different variable. Let's see some examples
