@@ -1,0 +1,65 @@
+# Part B. Reshaping data.
+
+The file `rhpi.csv` contains data from the International House Price Database from the Federal Reserve Bank of Dallas. It records the real housing price index. The raw data is available [here](https://www.dallasfed.org/institute/houseprice/~/media/documents/institute/houseprice/hp1701.xlsx): 
+
+Open the `.csv` file into `R`.
+
+```{r}
+rhpi <- read.csv("rhpi.csv", stringsAsFactors = FALSE)
+```
+
+1. Use `head` to explore the first few rows of the dataset. Is it in long or wide format? Is it a `tidy` dataset? Why or why not? (10 points)
+
+```{r}
+head(rhpi)
+```
+
+__It is in wide format. It is not a tidy dataset because multiple columns correspond to the same variable.__
+
+2.  You may find out that the first column name is empty. You can update the first column name to `country` by using the `colnames` function (5 points)
+
+```{r}
+colnames(rhpi)[1] <- "country"
+```
+
+3. Reshape the dataset so that it becomes _tidy_. Note that in most cases this means reshaping from wide to long. You can use the `melt` function from the `reshape` package or other functions. (15 points).
+
+```{r}
+library(reshape2)
+rhpi.long <- melt(rhpi, id.vars="country", value.name="index")
+head(rhpi.long)
+```
+
+4. Filter the data frame so that it only contains the data that corresponds to the US. Then, produce a line plot that tracks the housing price over time. What do you find? (10 points)
+
+```{r}
+us <- rhpi.long[rhpi.long$country=="US",]
+plot(us$variable, us$index, type="l")
+
+library(lubridate)
+us$variable <- gsub('X|Q', '', as.character(us$variable))
+us$q <- parse_date_time(us$variable, orders = "Yq")
+plot(us$q, us$index, type="l", xlab="Year/Quarter", ylab="Housing Price Index")
+```
+
+_We can clearly see the housing bubble and then the financial crisis after 2008._
+
+5. Write a function that takes a country name as input and returns the average housing price in the last 5 years. Then, show that it works by running it for 3 different countries. (10 points)
+
+```{r}
+rhpi.long$year <- substr(as.character(rhpi.long$variable), 2, 5)
+
+avg_hp <- function(country){
+  df <- rhpi.long[rhpi.long$country==country & rhpi.long$year > 2012,]
+  return(mean(df$index))
+}
+
+avg_hp("Australia")
+avg_hp("Belgium")
+avg_hp("Canada")
+
+```
+
+
+
+

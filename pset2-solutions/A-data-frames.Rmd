@@ -1,0 +1,100 @@
+# Part A. Data frames
+
+The file `billboard.csv` contains information about every song that appeared in the Billboard Top 100 chart between 1990 and 2000. Each row corresponds to a different song. The variables are:
+
+| Name | Description |
+| --- | --- | --- |
+`year` | year in which song first charted |
+`month` | month in which song first charted |
+`weeks_charted` | number of weeks song charted |
+`high` | peak position |
+`artist` | artist name |
+`title` | song name |
+`genre` | type of music |
+`bpm` | beats per minute (tempo) |
+`length` | length of song (in seconds) |
+
+Open the `.csv` file into `R`. Make sure you use the option `stringsAsFactors=F` so that text is not converted into factors. 
+
+```{r}
+billboard <- read.csv("billboard.csv", stringsAsFactors=F)
+```
+
+1. How many different songs charted during this period? (5 points)
+
+```{r}
+nrow(billboard)
+```
+
+_3185 different songs charted during this period._
+
+2. What is the median number of weeks that songs during this period stayed in the Billboard Top 100 Chart? (5 points)
+
+```{r}
+median(billboard$weeks_charted)
+```
+
+_The median number of weeks that songs stayed in the chart was 16._
+
+3. What is the maximum number of weeks that any song charted during this period? What song was it? (5 points)
+
+```{r}
+max(billboard$weeks_charted)
+billboard[which(billboard$weeks_charted==max(billboard$weeks_charted)),]
+```
+
+_The longest any song was on the charted during this period was 69 weeks. The song was ``How Do I Live,'' by LeAnn Rimes._
+
+4. How many different songs charted at the peak position (number one)? (5 points)
+
+```{r}
+table(billboard$high==1)
+sum(billboard$high==1)
+```
+
+_158 different songs charted at the peak position._
+
+5. What artist had the highest number of songs charting in the list during this period? (5 points)
+
+```{r}
+tab <- table(billboard$artist)
+tail(sort(tab), n=1)
+# only number 1 songs
+tab <- table(billboard$artist[billboard$high==1])
+tail(sort(tab), n=1)
+```
+
+_Madonna was the artist with highest number of different songs on the chart (27 songs)._
+
+6. Compute the median tempo of songs released during each month of the year. Clue: use the `aggregate` function. Plot this new dataset using a line chart. Do you find any seasonal patterns in this dataset? (5 points)
+
+```{r}
+agg <- aggregate(bpm ~ month, data=billboard, FUN=median)
+plot(agg$month, agg$bpm, type="l",
+	xlab=NULL, ylab="Median tempo, per month")
+```
+
+_Tempo tends to be somewhat lower during the summer._
+
+7. What was the most popular artist for each genre during this period? To answer this question, write a loop that iterates over each different genre. For each genre, create a frequency table with the number of songs for each artist, and print in the console the name of the artist with the highest number of songs charting in the Billboard List during this period. (10 points)
+
+```{r}
+genres <- unique(billboard$genre)
+for (g in genres){
+	# Step 1: subset dataset for songs in this genre
+	genre.data <- billboard[billboard$genre == g,] 
+	# Step 2: prepare frequency table with most frequent artists
+	tab <- table(genre.data$artist)
+	# Step 3: display most frequent artist
+	best <- tail(sort(tab), n=1)
+	message(g, ": ", names(best))
+}
+
+```
+
+
+
+
+
+
+
