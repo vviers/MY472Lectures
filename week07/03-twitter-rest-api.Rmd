@@ -17,11 +17,11 @@ library(tweetscores)
 library(streamR)
 
 searchTweets(q=c("brexit", "survey"), 
-  filename="~/data/recent-brexit-tweets.json",
+  filename="~/recent-brexit-tweets.json",
   n=1000, until="2018-11-10", 
   oauth=my_oauth)
 
-tweets <- parseTweets("~/data/recent-brexit-tweets.json")
+tweets <- parseTweets("~/recent-brexit-tweets.json")
 ```
 
 What are the most popular hashtags?
@@ -55,15 +55,15 @@ users$screen_name[which.max(users$followers_count)]
 
 Download up to 3,200 recent tweets from a Twitter account:
 ```{r}
-getTimeline(filename="~/data/realDonaldTrump.json", screen_name="realDonaldTrump", n=1000, oauth=my_oauth)
+getTimeline(filename="~/emmanuelmacron.json", screen_name="emmanuelmacron", n=3200, oauth=my_oauth)
 ```
 
 What are the most common hashtags?
 ```{r}
-tweets <- parseTweets("~/data/realDonaldTrump.json")
-ht <- str_extract_all(tweets$text, '#[A-Za-z0-9_]+')
+tweets <- parseTweets("~/emmanuelmacron.json")
+ht <- str_extract_all(tweets$text, '@[A-Za-z0-9_]+')
 ht <- unlist(ht)
-head(sort(table(ht), decreasing = TRUE))
+head(sort(table(ht), decreasing = TRUE), 30)
 ```
 
 

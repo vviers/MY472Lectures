@@ -92,6 +92,7 @@ nyt_years_count <- function(q, yearinit, yearend){
   return(counts)
 }
 ```
+
 ```{r, eval=FALSE}
 # and let's see what happens...
 nyt_years_count(q="inequality", yearinit=1990, yearend=2017)

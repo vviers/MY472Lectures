@@ -157,10 +157,10 @@ Follow these steps to create your own token after your application has been appr
 
 ```{r, eval=FALSE}
 library(ROAuth)
-my_oauth <- list(consumer_key = "CONSUMER_KEY",
-   consumer_secret = "CONSUMER_SECRET",
-   access_token="ACCESS_TOKEN",
-   access_token_secret = "ACCESS_TOKEN_SECRET")
+my_oauth <- list(consumer_key = "u5dpTTLY4Zsba2i0hPIaUrbCR",
+   consumer_secret = "EqmzsxnC2B4mc0cEtdr7tiybVszYgAnw4zN58vUNCGb2B2d4U0",
+   access_token="720242111921041409-MP87iSXSAD7y1Tm4Dghjt3pNLEBA1f6",
+   access_token_secret = "gPQrkexanzcliDqVArz4YG8uAwHuIcWftGmgIjgZ5v8HW")
 save(my_oauth, file="~/my_oauth")
 ```
 ```{r}
